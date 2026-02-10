@@ -4,7 +4,7 @@ import { PaginationDto } from '../../../common/pagination/pagination.dto';
 
 export class ListPatientsQueryDto extends PaginationDto {
   @ApiPropertyOptional({
-    description: 'Filtro simple por nombre (contiene, case-insensitive)',
+    description: 'Simple filter by name or last name (contains, case-insensitive)',
     example: 'ada',
   })
   @IsOptional()

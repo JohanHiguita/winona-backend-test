@@ -13,8 +13,18 @@ export class TypeOrmPatientRepository implements PatientRepositoryPort {
     private readonly repo: Repository<PatientOrmEntity>,
   ) {}
 
-  async create(input: { fullName: string }) {
-    const entity = this.repo.create({ fullName: input.fullName });
+  async create(input: {
+    name: string;
+    lastName: string;
+    email: string;
+    phone: string;
+  }) {
+    const entity = this.repo.create({
+      name: input.name,
+      lastName: input.lastName,
+      email: input.email,
+      phone: input.phone,
+    });
     const saved = await this.repo.save(entity);
     return toDomainPatient(saved);
   }
@@ -24,10 +34,21 @@ export class TypeOrmPatientRepository implements PatientRepositoryPort {
     return entity ? toDomainPatient(entity) : null;
   }
 
-  async update(id: string, input: { fullName?: string }) {
+  async update(
+    id: string,
+    input: {
+      name?: string;
+      lastName?: string;
+      email?: string;
+      phone?: string;
+    },
+  ) {
     const entity = await this.repo.findOne({ where: { id } });
     if (!entity) return null;
-    if (typeof input.fullName === 'string') entity.fullName = input.fullName;
+    if (typeof input.name === 'string') entity.name = input.name;
+    if (typeof input.lastName === 'string') entity.lastName = input.lastName;
+    if (typeof input.email === 'string') entity.email = input.email;
+    if (typeof input.phone === 'string') entity.phone = input.phone;
     const saved = await this.repo.save(entity);
     return toDomainPatient(saved);
   }
@@ -52,9 +73,10 @@ export class TypeOrmPatientRepository implements PatientRepositoryPort {
 
     const qb = this.repo.createQueryBuilder('p');
     if (args.q?.trim()) {
-      qb.where('LOWER(p.fullName) LIKE :q', {
-        q: `%${args.q.trim().toLowerCase()}%`,
-      });
+      qb.where(
+        '(LOWER(p.name) LIKE :q OR LOWER(p.lastName) LIKE :q)',
+        { q: `%${args.q.trim().toLowerCase()}%` },
+      );
     }
     qb.orderBy('p.createdAt', 'DESC').skip(skip).take(limit);
 

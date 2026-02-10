@@ -11,7 +11,12 @@ export class PatientsService {
     private readonly patientsRepo: PatientRepositoryPort,
   ) {}
 
-  async createPatient(input: { fullName: string }): Promise<Patient> {
+  async createPatient(input: {
+    name: string;
+    lastName: string;
+    email: string;
+    phone: string;
+  }): Promise<Patient> {
     return await this.patientsRepo.create(input);
   }
 
@@ -23,7 +28,12 @@ export class PatientsService {
 
   async updatePatient(
     id: string,
-    input: { fullName?: string },
+    input: {
+      name?: string;
+      lastName?: string;
+      email?: string;
+      phone?: string;
+    },
   ): Promise<Patient> {
     const patient = await this.patientsRepo.update(id, input);
     if (!patient) throw new NotFoundException('Patient not found');

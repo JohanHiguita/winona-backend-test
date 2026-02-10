@@ -14,7 +14,16 @@ export class PatientOrmEntity {
   id!: string;
 
   @Column({ type: 'text' })
-  fullName!: string;
+  name!: string;
+
+  @Column({ type: 'text' })
+  lastName!: string;
+
+  @Column({ type: 'text' })
+  email!: string;
+
+  @Column({ type: 'text' })
+  phone!: string;
 
   @CreateDateColumn({ type: 'datetime' })
   createdAt!: Date;

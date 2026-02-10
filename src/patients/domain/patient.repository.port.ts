@@ -8,9 +8,22 @@ export type PatientListResult = {
 };
 
 export interface PatientRepositoryPort {
-  create(input: { fullName: string }): Promise<Patient>;
+  create(input: {
+    name: string;
+    lastName: string;
+    email: string;
+    phone: string;
+  }): Promise<Patient>;
   findById(id: string): Promise<Patient | null>;
-  update(id: string, input: { fullName?: string }): Promise<Patient | null>;
+  update(
+    id: string,
+    input: {
+      name?: string;
+      lastName?: string;
+      email?: string;
+      phone?: string;
+    },
+  ): Promise<Patient | null>;
   delete(id: string): Promise<boolean>;
   exists(id: string): Promise<boolean>;
   list(args: { page: number; limit: number; q?: string }): Promise<PatientListResult>;
