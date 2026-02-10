@@ -1,5 +1,5 @@
 export type Patient = {
-  id: string;
+  id: number;
   name: string;
   lastName: string;
   email: string;

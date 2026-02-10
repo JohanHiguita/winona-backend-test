@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -35,19 +36,19 @@ export class PatientsController {
 
   @Get(':id')
   @ApiParam({ name: 'id', description: 'Patient ID' })
-  async get(@Param('id') id: string) {
+  async get(@Param('id', ParseIntPipe) id: number) {
     return await this.patientsService.getPatient(id);
   }
 
   @Patch(':id')
   @ApiParam({ name: 'id', description: 'Patient ID' })
-  async update(@Param('id') id: string, @Body() dto: UpdatePatientDto) {
+  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdatePatientDto) {
     return await this.patientsService.updatePatient(id, dto);
   }
 
   @Delete(':id')
   @ApiParam({ name: 'id', description: 'Patient ID' })
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     await this.patientsService.deletePatient(id);
     return { ok: true };
   }

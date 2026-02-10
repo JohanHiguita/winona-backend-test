@@ -1,6 +1,6 @@
 export type Prescription = {
-  id: string;
-  patientId: string;
+  id: number;
+  patientId: number;
   medicationName: string;
   dosage?: string | null;
   instructions?: string | null;

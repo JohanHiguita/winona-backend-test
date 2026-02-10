@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { PrescriptionsService } from '../application/prescriptions.service';
 import { CreatePrescriptionDto } from './dto/create-prescription.dto';
@@ -12,7 +12,7 @@ export class PrescriptionsController {
   @Post()
   @ApiParam({ name: 'patientId', description: 'Patient ID' })
   async add(
-    @Param('patientId') patientId: string,
+    @Param('patientId', ParseIntPipe) patientId: number,
     @Body() dto: CreatePrescriptionDto,
   ) {
     return await this.prescriptionsService.addToPatient({
@@ -24,7 +24,7 @@ export class PrescriptionsController {
   @Get()
   @ApiParam({ name: 'patientId', description: 'Patient ID' })
   async list(
-    @Param('patientId') patientId: string,
+    @Param('patientId', ParseIntPipe) patientId: number,
     @Query() query: ListPrescriptionsQueryDto,
   ) {
     return await this.prescriptionsService.listForPatient({

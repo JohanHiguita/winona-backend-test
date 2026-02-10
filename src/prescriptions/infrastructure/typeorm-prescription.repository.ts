@@ -14,7 +14,7 @@ export class TypeOrmPrescriptionRepository implements PrescriptionRepositoryPort
   ) {}
 
   async create(input: {
-    patientId: string;
+    patientId: number;
     medicationName: string;
     dosage?: string;
     instructions?: string;
@@ -30,7 +30,7 @@ export class TypeOrmPrescriptionRepository implements PrescriptionRepositoryPort
   }
 
   async listByPatientId(args: {
-    patientId: string;
+    patientId: number;
     page: number;
     limit: number;
   }): Promise<PrescriptionListResult> {

@@ -20,14 +20,14 @@ export class PatientsService {
     return await this.patientsRepo.create(input);
   }
 
-  async getPatient(id: string): Promise<Patient> {
+  async getPatient(id: number): Promise<Patient> {
     const patient = await this.patientsRepo.findById(id);
     if (!patient) throw new NotFoundException('Patient not found');
     return patient;
   }
 
   async updatePatient(
-    id: string,
+    id: number,
     input: {
       name?: string;
       lastName?: string;
@@ -40,7 +40,7 @@ export class PatientsService {
     return patient;
   }
 
-  async deletePatient(id: string): Promise<void> {
+  async deletePatient(id: number): Promise<void> {
     const ok = await this.patientsRepo.delete(id);
     if (!ok) throw new NotFoundException('Patient not found');
   }

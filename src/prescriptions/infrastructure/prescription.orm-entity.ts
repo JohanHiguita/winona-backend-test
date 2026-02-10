@@ -11,12 +11,12 @@ import { PatientOrmEntity } from '../../patients/infrastructure/patient.orm-enti
 
 @Entity({ name: 'prescriptions' })
 export class PrescriptionOrmEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   @Index()
-  @Column({ type: 'text' })
-  patientId!: string;
+  @Column({ type: 'integer' })
+  patientId!: number;
 
   @ManyToOne(() => PatientOrmEntity, (p) => p.prescriptions, {
     onDelete: 'CASCADE',

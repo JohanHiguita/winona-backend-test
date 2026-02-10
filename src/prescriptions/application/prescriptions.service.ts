@@ -16,7 +16,7 @@ export class PrescriptionsService {
   ) {}
 
   async addToPatient(args: {
-    patientId: string;
+    patientId: number;
     medicationName: string;
     dosage?: string;
     instructions?: string;
@@ -28,7 +28,7 @@ export class PrescriptionsService {
   }
 
   async listForPatient(args: {
-    patientId: string;
+    patientId: number;
     page: number;
     limit: number;
   }): Promise<PaginatedResponse<Prescription>> {

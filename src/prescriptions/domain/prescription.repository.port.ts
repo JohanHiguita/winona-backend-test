@@ -9,14 +9,14 @@ export type PrescriptionListResult = {
 
 export interface PrescriptionRepositoryPort {
   create(input: {
-    patientId: string;
+    patientId: number;
     medicationName: string;
     dosage?: string;
     instructions?: string;
   }): Promise<Prescription>;
 
   listByPatientId(args: {
-    patientId: string;
+    patientId: number;
     page: number;
     limit: number;
   }): Promise<PrescriptionListResult>;

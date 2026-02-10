@@ -10,8 +10,8 @@ import { PrescriptionOrmEntity } from '../../prescriptions/infrastructure/prescr
 
 @Entity({ name: 'patients' })
 export class PatientOrmEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
   @Column({ type: 'text' })
   name!: string;

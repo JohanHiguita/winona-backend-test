@@ -29,13 +29,13 @@ export class TypeOrmPatientRepository implements PatientRepositoryPort {
     return toDomainPatient(saved);
   }
 
-  async findById(id: string) {
+  async findById(id: number) {
     const entity = await this.repo.findOne({ where: { id } });
     return entity ? toDomainPatient(entity) : null;
   }
 
   async update(
-    id: string,
+    id: number,
     input: {
       name?: string;
       lastName?: string;
@@ -53,12 +53,12 @@ export class TypeOrmPatientRepository implements PatientRepositoryPort {
     return toDomainPatient(saved);
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const res = await this.repo.delete({ id });
     return Boolean(res.affected);
   }
 
-  async exists(id: string) {
+  async exists(id: number) {
     return await this.repo.exists({ where: { id } });
   }
 

@@ -14,9 +14,9 @@ export interface PatientRepositoryPort {
     email: string;
     phone: string;
   }): Promise<Patient>;
-  findById(id: string): Promise<Patient | null>;
+  findById(id: number): Promise<Patient | null>;
   update(
-    id: string,
+    id: number,
     input: {
       name?: string;
       lastName?: string;
@@ -24,8 +24,8 @@ export interface PatientRepositoryPort {
       phone?: string;
     },
   ): Promise<Patient | null>;
-  delete(id: string): Promise<boolean>;
-  exists(id: string): Promise<boolean>;
+  delete(id: number): Promise<boolean>;
+  exists(id: number): Promise<boolean>;
   list(args: { page: number; limit: number; q?: string }): Promise<PatientListResult>;
 }
 
