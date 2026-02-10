@@ -27,6 +27,52 @@ export class PrescriptionsService {
     return await this.prescriptionsRepo.create(args);
   }
 
+  async createPrescription(args: {
+    patientId: number;
+    medicationName: string;
+    dosage?: string;
+    instructions?: string;
+  }): Promise<Prescription> {
+    return await this.addToPatient(args);
+  }
+
+  async getPrescription(id: number): Promise<Prescription> {
+    const prescription = await this.prescriptionsRepo.findById(id);
+    if (!prescription) throw new NotFoundException('Prescription not found');
+    return prescription;
+  }
+
+  async updatePrescription(
+    id: number,
+    input: {
+      medicationName?: string;
+      dosage?: string;
+      instructions?: string;
+    },
+  ): Promise<Prescription> {
+    const updated = await this.prescriptionsRepo.update(id, input);
+    if (!updated) throw new NotFoundException('Prescription not found');
+    return updated;
+  }
+
+  async deletePrescription(id: number): Promise<void> {
+    const ok = await this.prescriptionsRepo.delete(id);
+    if (!ok) throw new NotFoundException('Prescription not found');
+  }
+
+  async listPrescriptions(args: {
+    page: number;
+    limit: number;
+  }): Promise<PaginatedResponse<Prescription>> {
+    const result = await this.prescriptionsRepo.list(args);
+    return toPaginatedResponse({
+      data: result.data,
+      total: result.total,
+      page: args.page,
+      limit: args.limit,
+    });
+  }
+
   async listForPatient(args: {
     patientId: number;
     page: number;

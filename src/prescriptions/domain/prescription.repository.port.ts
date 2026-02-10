@@ -15,6 +15,18 @@ export interface PrescriptionRepositoryPort {
     instructions?: string;
   }): Promise<Prescription>;
 
+  findById(id: number): Promise<Prescription | null>;
+  update(
+    id: number,
+    input: {
+      medicationName?: string;
+      dosage?: string;
+      instructions?: string;
+    },
+  ): Promise<Prescription | null>;
+  delete(id: number): Promise<boolean>;
+
+  list(args: { page: number; limit: number }): Promise<PrescriptionListResult>;
   listByPatientId(args: {
     patientId: number;
     page: number;
