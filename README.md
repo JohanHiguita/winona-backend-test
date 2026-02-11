@@ -21,7 +21,9 @@ consistent error response format.
 ## Setup
 
 1. `npm install`
-2. `npm run start:dev`
+2. Seed local data (optional):
+   - `npm run seed --patients=100`
+3. `npm run start:dev`
 
 Server URL: `http://localhost:3000`  
 Swagger UI: `http://localhost:3000/api`
@@ -43,14 +45,15 @@ These credentials must be provided via environment variables. See
 
 ### Database (SQLite)
 
-The SQLite file is not committed. To generate data locally, use:
+The SQLite file is not committed. By default, seeding creates 100 patients.
+You can pass a different value, for example:
 
 ```
-npm run seed --patients=100
+npm run seed --patients=250
 ```
 
-This generates the requested number of patients and assigns 0–5 prescriptions
-per patient. To use a different database path, set `DB_PATH`.
+Seeding assigns 0–5 prescriptions per patient. To use a different database
+path, set `DB_PATH`.
 
 To clear patient and prescription records (tables remain):
 
