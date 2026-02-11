@@ -22,6 +22,7 @@ consistent error response format.
 
 1. `npm install`
 2. Seed local data (optional):
+   - `npm run db:reset` (clear existing data)
    - `npm run seed --patients=100`
 3. `npm run start:dev`
 
@@ -45,8 +46,7 @@ These credentials must be provided via environment variables. See
 
 ### Database (SQLite)
 
-The SQLite file is not committed. By default, seeding creates 100 patients.
-You can pass a different value, for example:
+By default, seeding creates 100 patients. You can pass a different value, for example:
 
 ```
 npm run seed --patients=250
