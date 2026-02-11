@@ -41,6 +41,23 @@ Demo credentials (shown here because this is a technical assessment):
 These credentials must be provided via environment variables. See
 `.env.example` for the demo values used in this assessment.
 
+### Database (SQLite)
+
+The SQLite file is not committed. To generate data locally, use:
+
+```
+npm run seed --patients=100
+```
+
+This generates the requested number of patients and assigns 0–5 prescriptions
+per patient. To use a different database path, set `DB_PATH`.
+
+To clear patient and prescription records (tables remain):
+
+```
+npm run db:reset
+```
+
 ## Testing Commands
 
 - `npm run test`
