@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcryptjs';
+import { getAuthCredentials, getJwtExpiresInSeconds } from '../auth.config';
 
 type AuthUser = {
   id: string;
@@ -13,9 +14,8 @@ export class AuthService {
 
   /**
    * Minimal auth for assessment:
-   * - Default credentials: admin/admin
-   * - Override with AUTH_USERNAME + AUTH_PASSWORD (plaintext)
-   * - Or provide AUTH_PASSWORD_HASH (bcrypt) to avoid storing plaintext
+   * - Credentials are provided via environment variables
+   * - Use AUTH_PASSWORD_HASH (bcrypt) to avoid plaintext secrets
    */
   async login(args: { username: string; password: string }): Promise<{
     access_token: string;
@@ -23,7 +23,7 @@ export class AuthService {
     expires_in: number;
   }> {
     const user = await this.validateUser(args);
-    const expiresInSeconds = Number(process.env.JWT_EXPIRES_IN_SECONDS ?? 3600);
+    const expiresInSeconds = getJwtExpiresInSeconds();
 
     const payload = { sub: user.id, username: user.username };
     const access_token = await this.jwtService.signAsync(payload, {
@@ -41,24 +41,22 @@ export class AuthService {
     username: string;
     password: string;
   }): Promise<AuthUser> {
-    const expectedUsername = process.env.AUTH_USERNAME ?? 'admin';
-    const expectedPassword = process.env.AUTH_PASSWORD ?? 'admin';
-    const expectedPasswordHash = process.env.AUTH_PASSWORD_HASH;
+    const { username, password, passwordHash } = getAuthCredentials();
 
-    if (args.username !== expectedUsername) {
+    if (args.username !== username) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    if (expectedPasswordHash) {
-      const ok = await bcrypt.compare(args.password, expectedPasswordHash);
+    if (passwordHash) {
+      const ok = await bcrypt.compare(args.password, passwordHash);
       if (!ok) throw new UnauthorizedException('Invalid credentials');
     } else {
-      if (args.password !== expectedPassword) {
+      if (args.password !== password) {
         throw new UnauthorizedException('Invalid credentials');
       }
     }
 
-    return { id: 'user-1', username: expectedUsername };
+    return { id: 'user-1', username };
   }
 }
 
