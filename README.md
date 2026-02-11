@@ -38,17 +38,8 @@ Demo credentials (shown here because this is a technical assessment):
 - Username: `admin`
 - Password: `admin`
 
-These credentials must be provided via environment variables.
-
-Environment variables:
-- `JWT_SECRET` (required)
-- `JWT_EXPIRES_IN_SECONDS` (optional, default `3600`)
-- `AUTH_USERNAME` (required)
-- `AUTH_PASSWORD` (required if AUTH_PASSWORD_HASH is not set)
-- `AUTH_PASSWORD_HASH` (optional, bcrypt hash)
-
-For local testing, the app will load `.env` if present, otherwise it falls back
-to `.env.example` (demo-only values).
+These credentials must be provided via environment variables. See
+`.env.example` for the demo values used in this assessment.
 
 ## Testing Commands
 
@@ -102,6 +93,7 @@ through repository ports.
 ## API Endpoints (summary)
 
 Patients:
+
 - `POST /patients`
 - `GET /patients`
 - `GET /patients/:id`
@@ -109,6 +101,7 @@ Patients:
 - `DELETE /patients/:id`
 
 Prescriptions:
+
 - `POST /prescriptions`
 - `GET /prescriptions`
 - `GET /prescriptions/:id`
@@ -118,6 +111,7 @@ Prescriptions:
 - `GET /patients/:patientId/prescriptions`
 
 Auth:
+
 - `POST /auth/register`
 - `POST /auth/login`
 
@@ -132,9 +126,7 @@ All errors return the same shape:
   "statusCode": 400,
   "error": "Bad Request",
   "message": "Validation failed",
-  "details": [
-    { "field": "email", "message": "must be an email" }
-  ],
+  "details": [{ "field": "email", "message": "must be an email" }],
   "path": "/patients",
   "timestamp": "2026-02-10T21:15:30.123Z"
 }
