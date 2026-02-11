@@ -21,6 +21,14 @@ async function bootstrap() {
     .setDescription('API endpoints for the Winona Backend Assessment Test API')
     .setVersion('0.0.1')
     .addTag('Core')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'access-token',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

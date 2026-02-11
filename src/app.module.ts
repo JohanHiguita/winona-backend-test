@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'node:path';
+import { AuthModule } from './auth/auth.module';
 import { PatientsModule } from './patients/patients.module';
 import { PrescriptionsModule } from './prescriptions/prescriptions.module';
 
@@ -13,6 +14,7 @@ import { PrescriptionsModule } from './prescriptions/prescriptions.module';
       synchronize: true,
       logging: ['error', 'warn'],
     }),
+    AuthModule,
     PatientsModule,
     PrescriptionsModule,
   ],
