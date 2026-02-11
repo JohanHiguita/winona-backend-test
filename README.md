@@ -47,6 +47,9 @@ Environment variables:
 - `AUTH_PASSWORD` (required if AUTH_PASSWORD_HASH is not set)
 - `AUTH_PASSWORD_HASH` (optional, bcrypt hash)
 
+For local testing, the app will load `.env` if present, otherwise it falls back
+to `.env.example` (demo-only values).
+
 ## Testing Commands
 
 - `npm run test`

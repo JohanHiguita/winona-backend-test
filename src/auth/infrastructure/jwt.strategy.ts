@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { getJwtSecret } from '../auth.config';
 
 export type JwtPayload = {
   sub: string;
@@ -10,12 +10,20 @@ export type JwtPayload = {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(private readonly config: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: getJwtSecret(),
+      secretOrKey: JwtStrategy.getSecret(config),
     });
+  }
+
+  private static getSecret(config: ConfigService) {
+    const secret = config.get<string>('JWT_SECRET');
+    if (!secret) {
+      throw new Error('Missing required environment variable: JWT_SECRET');
+    }
+    return secret;
   }
 
   async validate(payload: JwtPayload) {
