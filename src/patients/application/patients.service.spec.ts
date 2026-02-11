@@ -63,6 +63,20 @@ describe('PatientsService (unit)', () => {
     );
   });
 
+  it('updates a patient via repository (happy path)', async () => {
+    const updated = makePatient({ id: 7, phone: '+1-555-000-0000' });
+    const repo = makeRepo({
+      update: jest.fn().mockResolvedValue(updated),
+    });
+    const service = new PatientsService(repo);
+
+    await expect(
+      service.updatePatient(7, { phone: '+1-555-000-0000' }),
+    ).resolves.toEqual(updated);
+
+    expect(repo.update).toHaveBeenCalledWith(7, { phone: '+1-555-000-0000' });
+  });
+
   it('lists patients as a paginated response', async () => {
     const repoResult: PatientListResult = {
       data: [makePatient({ id: 1 }), makePatient({ id: 2 })],

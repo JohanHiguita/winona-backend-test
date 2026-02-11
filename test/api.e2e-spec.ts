@@ -106,6 +106,30 @@ describe('API (e2e)', () => {
       .expect(404);
   });
 
+  it('gets a patient by id (happy path)', async () => {
+    const createRes = await request(app.getHttpServer())
+      .post('/patients')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: 'Alan',
+        lastName: 'Turing',
+        email: 'alan@turing.dev',
+        phone: '+1-555-222-3333',
+      })
+      .expect(201);
+
+    const patientId = createRes.body.id;
+
+    await request(app.getHttpServer())
+      .get(`/patients/${patientId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('id', patientId);
+        expect(res.body).toHaveProperty('email', 'alan@turing.dev');
+      });
+  });
+
   it('validates input and returns standard error shape', async () => {
     await request(app.getHttpServer())
       .post('/patients')
@@ -162,6 +186,21 @@ describe('API (e2e)', () => {
         expect(res.body).toHaveProperty('data');
         expect(res.body.data.length).toBeGreaterThan(0);
         expect(res.body).toHaveProperty('page', 1);
+      });
+  });
+
+  it('returns 404 when creating prescription for non-existent patient', async () => {
+    await request(app.getHttpServer())
+      .post('/patients/999999/prescriptions')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        medicationName: 'Metformin',
+        dosage: '500mg',
+        instructions: 'Once daily',
+      })
+      .expect(404)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('statusCode', 404);
       });
   });
 });
