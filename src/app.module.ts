@@ -9,7 +9,7 @@ import { PrescriptionsModule } from './prescriptions/prescriptions.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'better-sqlite3',
-      database: join(process.cwd(), 'data', 'app.sqlite'),
+      database: process.env.DB_PATH ?? join(process.cwd(), 'data', 'app.sqlite'),
       autoLoadEntities: true,
       synchronize: true,
       logging: ['error', 'warn'],
